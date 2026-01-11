@@ -253,7 +253,7 @@ export default function App() {
         >
           <p className="text-base sm:text-lg font-semibold">
             Now you can make decisions on coins only using their name and logo,
-            JUST LIKE A REAL CRYPTO TRADER
+            JUST LIKE A REAL CRYPTO TRADER!
           </p>
           <p className="text-base sm:text-lg font-semibold">
             Created by Jacob Arciniega-Bueno.
