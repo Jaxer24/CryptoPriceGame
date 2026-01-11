@@ -255,6 +255,9 @@ export default function App() {
             Now you can make decisions on coins only using their name and logo,
             JUST LIKE A REAL CRYPTO TRADER
           </p>
+          <p className="text-base sm:text-lg font-semibold">
+            Created by Jacob Arciniega-Bueno.
+          </p>
           <p className="text-xs sm:text-sm text-yellow-300/70">
             {usingAPI 
               ? 'Using live data from CoinGecko API 🌐' 
