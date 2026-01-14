@@ -19,8 +19,7 @@ export const cryptoDatabase: CoinData[] = [
   { id: 'polkadot', symbol: 'dot', name: 'Polkadot', image: 'https://assets.coingecko.com/coins/images/12171/large/polkadot.png', current_price: 7.12 },
   { id: 'avalanche-2', symbol: 'avax', name: 'Avalanche', image: 'https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png', current_price: 37.89 },
   { id: 'chainlink', symbol: 'link', name: 'Chainlink', image: 'https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png', current_price: 14.56 },
-  
-  // Mid-tier coins
+  // ...existing code...
   { id: 'shiba-inu', symbol: 'shib', name: 'Shiba Inu', image: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png', current_price: 0.00002456 },
   { id: 'polygon', symbol: 'matic', name: 'Polygon', image: 'https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png', current_price: 0.89 },
   { id: 'uniswap', symbol: 'uni', name: 'Uniswap', image: 'https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png', current_price: 6.78 },
@@ -193,8 +192,8 @@ export const cryptoDatabase: CoinData[] = [
 ];
 
 export function getRandomCoins(count: number = 3): CoinData[] {
-  // Filter out coins with invalid or zero prices
-  const validCoins = cryptoDatabase.filter(coin => coin.current_price && coin.current_price > 0);
+  // Filter out coins with invalid or zero prices or missing image
+  const validCoins = cryptoDatabase.filter(coin => coin.current_price && coin.current_price > 0 && coin.image && coin.image.trim() !== '');
   
   // Shuffle and select the requested count
   const shuffled = [...validCoins].sort(() => 0.5 - Math.random());
