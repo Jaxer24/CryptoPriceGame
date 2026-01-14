@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { CoinSlot } from '@/app/components/CoinSlot';
@@ -10,6 +11,8 @@ interface Coin {
   image: string;
   current_price: number;
 }
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function App() {
   const [coins, setCoins] = useState<Coin[]>([]);
@@ -179,8 +182,8 @@ export default function App() {
     setAuthError(null);
     try {
       const endpoint = authMode === 'login'
-        ? 'http://localhost:3001/api/login'
-        : 'http://localhost:3001/api/register';
+        ? `${API_URL}/api/login`
+        : `${API_URL}/api/register`;
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -205,7 +208,7 @@ export default function App() {
   // Fetch leaderboard
   const fetchLeaderboard = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/leaderboard');
+      const res = await fetch(`${API_URL}/api/leaderboard`);
       const data = await res.json();
       setLeaderboard(data);
     } catch {
@@ -220,7 +223,7 @@ export default function App() {
   // Save score on game over if logged in
   useEffect(() => {
     if (gameOver && user && !scoreSaved) {
-      fetch('http://localhost:3001/api/scores', {
+      fetch(`${API_URL}/api/scores`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: user.userId, score }),
