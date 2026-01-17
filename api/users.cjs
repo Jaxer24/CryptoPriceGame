@@ -6,9 +6,10 @@ exports.register = async (req, res) => {
   if (!username || !password) return res.status(400).json({ error: 'Missing fields' });
   try {
     const db = await dbPromise;
-    const row = await db.get('SELECT id FROM users WHERE username = ?', username);
-    if (row) return res.status(409).json({ error: 'User exists' });
-    await db.run('INSERT INTO users (username, password, highscore) VALUES (?, ?, 0)', username, password);
+      const bcrypt = require('bcrypt');
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      await db.run('INSERT INTO users (username, password, highscore) VALUES (?, ?, 0)', username, hashedPassword);
     res.status(201).json({ message: 'User registered' });
   } catch (err) {
     res.status(500).json({ error: 'Database error' });
@@ -20,9 +21,11 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
   try {
     const db = await dbPromise;
-    const row = await db.get('SELECT id, highscore FROM users WHERE username = ? AND password = ?', username, password);
+      const row = await db.get('SELECT id, password, highscore FROM users WHERE username = ?', username);
     if (!row) return res.status(401).json({ error: 'Invalid credentials' });
-    res.json({ userId: row.id, highscore: row.highscore });
+      const match = await bcrypt.compare(password, row.password);
+      if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+      res.json({ id: row.id, highscore: row.highscore });
   } catch (err) {
     res.status(500).json({ error: 'Database error' });
   }
