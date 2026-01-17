@@ -480,7 +480,7 @@ export default function App() {
               </thead>
               <tbody>
                 {leaderboard.length === 0 ? (
-                  <tr><td colSpan={3} className="text-center py-4">No scores yet.</td></tr>
+                  <tr><td colSpan={3} className="text-center py-4">Login to leaderboard scores</td></tr>
                 ) : (
                   leaderboard.map((entry, idx) => (
                     <tr key={entry.username} className={idx === 0 ? 'font-bold text-yellow-400' : ''}>
